@@ -1,14 +1,18 @@
 const fs = require('fs');
 
-const crearArchivo = (base = 5) => new Promise((resolve, reject) => {
-    console.clear();
-    console.log('===================');
-    console.log(`=   TABLA DEL:`, base);
-    console.log('===================');
+const crearArchivo = (listar, base = 5) => new Promise((resolve, reject) => {
 
     let salida = '';
     for (let i = 0; i < 10; i++) {
         salida += `${base} x ${i + 1} = ${base * (i + 1)}\n`;
+    }
+
+    if (listar) {
+        console.clear();
+        console.log('===================');
+        console.log(`=   TABLA DEL:`, base);
+        console.log('===================');
+        console.log(salida);
     }
     fs.writeFileSync(`tabla-${base}.txt`, salida);
     resolve(`tabla-${base}.txt creada`);

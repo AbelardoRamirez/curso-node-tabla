@@ -1,20 +1,26 @@
 const { crearArchivo, crearArchivoAsync } = require('./helpers/multiplicar');
-//const base = 4;
+const argv = require('yargs')
+    .option('b', {
+        alias: 'base',
+        type: 'number',
+        demandOption: true
+    })
+    .option('l', {
+        alias: 'listar',
+        type: 'boolean',
+        demandOption: true,
+        default: false
+    })
+    .check((argv, option) => {
+        if (isNaN(argv.b)) {
+            throw 'La base tiene que ser numerico';
+        }
+        return true;
+    })
+    .argv;
 
-console.clear();
 
-console.log(process.argv);
-
-/**
- * No se podra manejar de muchas maneras la base es decir
- * node app --limit=20 --base=5, siempre tomaria el tercer argumento...
- */
-
-const [, , arg3 = 5] = process.argv;
-const [,base] = arg3.split('=');
-console.log(base);
-
-crearArchivo(base)
+crearArchivo(argv.l, argv.b)
     .then(msg => console.log(msg))
     .catch(err => console.log(err));
 
